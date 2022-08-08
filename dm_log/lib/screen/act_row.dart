@@ -246,7 +246,7 @@ class _ActivityRowState extends State<ActivityRow> {
                   children: [
                     const Text("Adult Count", style: TextStyle(fontSize: 15)),
                     Container(
-                      width: 117,
+                      width: 125,
                       height: 65,
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
@@ -284,7 +284,7 @@ class _ActivityRowState extends State<ActivityRow> {
                     const Text("Child Count", style: TextStyle(fontSize: 15)),
                     Container(
                       margin: const EdgeInsets.only(right: 10),
-                      width: 117,
+                      width: 125,
                       height: 65,
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(

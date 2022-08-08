@@ -98,13 +98,11 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Column(
         children: <Widget>[
-          const SizedBox(height: 50),
           // Activity Row
-          Center(
-            child: Container(
-              height: MediaQuery.of(context).size.height - 106,
-              width: 750,
+          Expanded(
+            child: Center(
               child: ListView(
+                shrinkWrap: true,
                 children: Provider.of<ActivityProvider>(context)
                     .activities
                     .map((activity) => ActivityRow(

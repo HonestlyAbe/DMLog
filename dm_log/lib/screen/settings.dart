@@ -49,7 +49,7 @@ class _MyWidgetState extends State<Settings> {
         height: 400,
         child: Column(
           children: [
-            pages[current],
+            Expanded(child: pages[current]),
             BottomNavigationBar(
               type: BottomNavigationBarType.fixed,
               items: const [
@@ -95,43 +95,39 @@ class _PartPageState extends State<PartPage> {
   @override
   Widget build(BuildContext context) {
     TextEditingController controller = TextEditingController();
-    return Container(
-      height: 344,
-      child: Column(
-        children: <Widget>[
-          TextField(
-            controller: controller,
-            decoration: const InputDecoration(
-              labelText: 'Add participant',
-            ),
+    return Column(
+      children: <Widget>[
+        TextField(
+          controller: controller,
+          decoration: const InputDecoration(
+            labelText: 'Add participant',
           ),
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () {
-              // Add participant to provider
-              widget.study.addParticipant(controller.text);
-              widget.participants
-                  .addParticipant(ParticipantInfo(name: controller.text));
-              setState(() {});
-              controller.clear();
+        ),
+        IconButton(
+          icon: const Icon(Icons.add),
+          onPressed: () {
+            // Add participant to provider
+            widget.study.addParticipant(controller.text);
+            widget.participants
+                .addParticipant(ParticipantInfo(name: controller.text));
+            setState(() {});
+            controller.clear();
+          },
+        ),
+        // List of participants
+        Expanded(
+          child: ListView.builder(
+            itemCount: widget.participants.participants.length,
+            itemBuilder: (BuildContext context, int index) {
+              return ParticipantRow(
+                participant: widget.participants.participants[index],
+                study: widget.study,
+                participants: widget.participants,
+              );
             },
           ),
-          // List of participants
-          Container(
-            height: 167,
-            child: ListView.builder(
-              itemCount: widget.participants.participants.length,
-              itemBuilder: (BuildContext context, int index) {
-                return ParticipantRow(
-                  participant: widget.participants.participants[index],
-                  study: widget.study,
-                  participants: widget.participants,
-                );
-              },
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
@@ -226,36 +222,34 @@ class _CommentsPageState extends State<CommentsPage> {
   Widget build(BuildContext context) {
     TextEditingController controller = TextEditingController();
     // Adds a textfield to add comments to the provider
-    return Expanded(
-      child: Column(
-        children: <Widget>[
-          TextField(
-            controller: controller,
-            decoration: const InputDecoration(
-              labelText: 'Add comment',
-            ),
+    return Column(
+      children: <Widget>[
+        TextField(
+          controller: controller,
+          decoration: const InputDecoration(
+            labelText: 'Add comment',
           ),
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () {
-              // Add comment to provider
-              widget.study.addComment(controller.text);
-              setState(() {});
-              controller.clear();
+        ),
+        IconButton(
+          icon: const Icon(Icons.add),
+          onPressed: () {
+            // Add comment to provider
+            widget.study.addComment(controller.text);
+            setState(() {});
+            controller.clear();
+          },
+        ),
+        // List of comments
+        //stateful builder
+        Expanded(
+          child: ListView.builder(
+            itemCount: widget.study.quickComments.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Text(widget.study.quickComments[index]);
             },
           ),
-          // List of comments
-          //stateful builder
-          Expanded(
-            child: ListView.builder(
-              itemCount: widget.study.quickComments.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Text(widget.study.quickComments[index]);
-              },
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
@@ -277,7 +271,7 @@ class _StudyValuesState extends State<StudyValues> {
           Container(
             margin: const EdgeInsets.only(right: 10),
             width: 117,
-            height: 65,
+            height: 60,
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.black),
@@ -294,14 +288,13 @@ class _StudyValuesState extends State<StudyValues> {
           )
         ],
       ),
-      const SizedBox(height: 10),
       Column(
         children: [
           const Text("Adult Count", style: TextStyle(fontSize: 15)),
           Container(
             margin: const EdgeInsets.only(right: 10),
-            width: 117,
-            height: 65,
+            width: 125,
+            height: 60,
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.black),
@@ -337,8 +330,8 @@ class _StudyValuesState extends State<StudyValues> {
           const Text("Child Count", style: TextStyle(fontSize: 15)),
           Container(
             margin: const EdgeInsets.only(right: 10),
-            width: 117,
-            height: 65,
+            width: 125,
+            height: 60,
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.black),
@@ -391,29 +384,23 @@ class StudyInfoPage extends StatefulWidget {
 class _ExportStudyState extends State<StudyInfoPage> {
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(children: <Widget>[
-        StudyValues(study: widget.study),
-        //button to export study
-        TextButton(
-          child: const Text("Copy Participant Infos"),
-          onPressed: () {
-            Clipboard.setData(
-                ClipboardData(text: widget.participants.toString()));
-          },
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        TextButton(
-          child: const Text("Copy Activity Infos"),
-          onPressed: () {
-            Clipboard.setData(
-                ClipboardData(text: widget.activities.toString()));
-          },
-        ),
-      ]),
-    );
+    return Column(children: <Widget>[
+      StudyValues(study: widget.study),
+      //button to export study
+      TextButton(
+        child: const Text("Copy Participant Infos"),
+        onPressed: () {
+          Clipboard.setData(
+              ClipboardData(text: widget.participants.toString()));
+        },
+      ),
+      TextButton(
+        child: const Text("Copy Activity Infos"),
+        onPressed: () {
+          Clipboard.setData(ClipboardData(text: widget.activities.toString()));
+        },
+      ),
+    ]);
   }
 }
 
@@ -422,21 +409,19 @@ class ActivityGuide extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: ListView(
-        children: [
-          'General play time (GP): Child playing on their own initiative. Playing with various toys. Free play time.\n',
-          'Organization play time (OrP): Activity the child sits down for focus and engage in (painting, coloring, puzzles) by teacher.\n',
-          'Outside play time (OuP): Occurs ourside on the playground\n',
-          'Story time (S): Listens to or engages in books for more than 2 minutes\n',
-          'Circle time (C): Circle group activity\n',
-          'Meal time (M): Given food, sitting in chair; breakfast, snack or lunch\n',
-          'Personal Care (PC): Diaper changing, bathroom, hand washing\n',
-          'Nap time (N): Time on mat\n',
-          'Therapy (T): Child leaves room to go to therapy\n',
-          'Transition (Trans): Transition between rooms/locations (e.g. walking to go outide or to another classroom',
-        ].map((String text) => Text(text)).toList(),
-      ),
+    return ListView(
+      children: [
+        'General play time (GP): Child playing on their own initiative. Playing with various toys. Free play time.\n',
+        'Organization play time (OrP): Activity the child sits down for focus and engage in (painting, coloring, puzzles) by teacher.\n',
+        'Outside play time (OuP): Occurs ourside on the playground\n',
+        'Story time (S): Listens to or engages in books for more than 2 minutes\n',
+        'Circle time (C): Circle group activity\n',
+        'Meal time (M): Given food, sitting in chair; breakfast, snack or lunch\n',
+        'Personal Care (PC): Diaper changing, bathroom, hand washing\n',
+        'Nap time (N): Time on mat\n',
+        'Therapy (T): Child leaves room to go to therapy\n',
+        'Transition (Trans): Transition between rooms/locations (e.g. walking to go outide or to another classroom',
+      ].map((String text) => Text(text)).toList(),
     );
   }
 }
