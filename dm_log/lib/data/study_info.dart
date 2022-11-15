@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
-import 'package:path/path.dart';
 
 class StudyInfo extends ChangeNotifier {
   // Studyinfo constructor
