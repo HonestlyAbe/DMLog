@@ -1,20 +1,22 @@
 import 'activity_provider.dart';
 import 'study_info.dart';
-// Stateful activity widget that is a child of activity provider
+import 'package:uuid/uuid.dart';
 
 class Activity {
-  // Initialize class
-  Activity(
-      {required this.timeStarted,
-      required this.timeEnded,
-      required this.involved,
-      required this.type,
-      required this.adultCount,
-      required this.childCount,
-      required this.comment,
-      required this.provider,
-      required this.study,
-      required this.ID});
+  Activity({
+    required this.provider,
+    required this.study,
+    this.timeStarted = "",
+    this.timeEnded = "",
+    Map<String, bool>? involved,
+    this.type = "G",
+    this.adultCount = 0,
+    this.childCount = 0,
+    this.comment = "",
+    String? ID,
+  })  : this.involved = involved ??
+            Map.fromIterable(study.studyParticipants, value: (v) => false),
+        this.ID = ID ?? idGenerator();
 
   String timeStarted;
   String timeEnded;
@@ -23,41 +25,30 @@ class Activity {
   int adultCount;
   int childCount;
   String comment;
-  StudyInfo study;
-  ActivityProvider provider;
-  final String ID;
+  final StudyInfo study;
+  final ActivityProvider provider;
+  String ID;
+
   static Activity defaultActivity(ActivityProvider provider, StudyInfo study) {
     return Activity(
-        timeStarted: "",
-        timeEnded: "",
-        involved: Map.fromIterable(study.studyParticipants, value: (v) => true),
-        type: "G",
-        adultCount: study.adultCount,
-        childCount: study.childCount,
-        comment: "",
-        provider: provider,
-        study: study,
-        ID: idGenerator());
+      provider: provider,
+      study: study,
+      involved: Map.fromIterable(study.studyParticipants, value: (v) => true),
+      adultCount: study.adultCount,
+      childCount: study.childCount,
+    );
   }
 
   static Activity blankActivity(ActivityProvider provider, StudyInfo study) {
     return Activity(
-        timeStarted: "",
-        timeEnded: "",
-        involved:
-            Map.fromIterable(study.studyParticipants, value: (v) => false),
-        type: "G",
-        adultCount: 0,
-        childCount: 0,
-        comment: "",
-        provider: provider,
-        study: study,
-        ID: idGenerator());
+      provider: provider,
+      study: study,
+    );
   }
 
   static String idGenerator() {
-    final now = DateTime.now();
-    return now.microsecondsSinceEpoch.toString();
+    var uuid = Uuid();
+    return uuid.v4();
   }
 
   @override

@@ -1,77 +1,64 @@
 import 'package:flutter/material.dart';
-import 'dart:io';
 
+/// Represents detailed information about a study.
 class StudyInfo extends ChangeNotifier {
-  // Studyinfo constructor
+  // Studyinfo constructor with default values for flexibility
   StudyInfo({
-    required this.studyName,
-    required this.studyParticipants,
-    required this.studyActivities,
-    required this.adultCount,
-    required this.childCount,
-    required this.quickComments,
-  });
+    this.studyName = "",
+    List<String>? studyParticipants,
+    List<String>? studyActivities,
+    this.adultCount = 2,
+    this.childCount = 3,
+    List<String>? quickComments,
+  })  : this.studyParticipants = studyParticipants ?? [],
+        this.studyActivities = studyActivities ?? ["T", "A", "G", "F", "PC"],
+        this.quickComments = quickComments ?? [];
 
-  // Studyinfo variables
-  String studyName;
-  List<String> studyParticipants;
-  List<String> studyActivities;
-  int adultCount;
-  int childCount;
-  List<String> quickComments;
+  final String studyName;
+  final List<String> studyParticipants;
+  final List<String> studyActivities;
+  final int adultCount;
+  final int childCount;
+  final List<String> quickComments;
 
-  // Default studyinfo
-  static StudyInfo defaultStudyInfo() {
-    return StudyInfo(
-        studyName: "",
-        studyParticipants: [],
-        studyActivities: ["T", "A", "G", "F", "PC"],
-        adultCount: 2,
-        childCount: 3,
-        quickComments: []);
-  }
-
-  // Add participant to studyinfo
   void addParticipant(String participant) {
     studyParticipants.add(participant);
     notifyListeners();
   }
 
-  // Remove participant from studyinfo
   void removeParticipant(String participant) {
     studyParticipants.remove(participant);
     notifyListeners();
   }
 
-  // Add comment
   void addComment(String comment) {
     quickComments.add(comment);
     notifyListeners();
   }
 
-  // Studyinfo setters
-  setStudyName(String studyName) {
-    this.studyName = studyName;
+  // Using Dart's built-in setter mechanism
+  set studyName(String value) {
+    this.studyName = value;
     notifyListeners();
   }
 
-  setStudyParticipants(List<String> studyParticipants) {
-    this.studyParticipants = studyParticipants;
+  set studyParticipants(List<String> values) {
+    this.studyParticipants = values;
     notifyListeners();
   }
 
-  setStudyActivities(List<String> studyActivities) {
-    this.studyActivities = studyActivities;
+  set studyActivities(List<String> values) {
+    this.studyActivities = values;
     notifyListeners();
   }
 
-  setAdultCount(int adultCount) {
-    this.adultCount = adultCount;
+  set adultCount(int value) {
+    this.adultCount = value;
     notifyListeners();
   }
 
-  setChildCount(int childCount) {
-    this.childCount = childCount;
+  set childCount(int value) {
+    this.childCount = value;
     notifyListeners();
   }
 }
