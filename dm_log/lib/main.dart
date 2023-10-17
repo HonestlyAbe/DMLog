@@ -11,7 +11,7 @@ import './screen/settings.dart';
 void main() {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => ActivityProvider()),
-    ChangeNotifierProvider(create: (_) => StudyInfo.defaultStudyInfo()),
+    ChangeNotifierProvider(create: (_) => StudyInfo()),
     ChangeNotifierProvider(create: (_) => ParticipantEntry()),
   ], child: const MyApp()));
 }

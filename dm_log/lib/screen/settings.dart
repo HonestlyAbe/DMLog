@@ -157,7 +157,7 @@ class ParticipantRow extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         child: Row(
           children: <Widget>[
-            Text(participant.getName()),
+            Text(participant.name),
             const SizedBox(width: 30),
             SizedBox(
               width: 100,
@@ -173,7 +173,7 @@ class ParticipantRow extends StatelessWidget {
                       participants.updateParticipant(
                           participant,
                           "${now.hour}:${now.minute.toString().padLeft(2, '0')}",
-                          "timeEntered");
+                          ParticipantAttribute.timeEntered);
                     },
                   ),
                   // Textfield with controller
@@ -182,7 +182,7 @@ class ParticipantRow extends StatelessWidget {
                       controller: timeEntered,
                       onChanged: (value) {
                         participants.updateParticipant(
-                            participant, value, "timeEntered");
+                            participant, value, ParticipantAttribute.timeEntered);
                       },
                     ),
                   ),
@@ -198,7 +198,7 @@ class ParticipantRow extends StatelessWidget {
                   labelText: 'Alternative identifier',
                 ),
                 onChanged: (String value) {
-                  participants.updateParticipant(participant, value, "altId");
+                  participants.updateParticipant(participant, value, ParticipantAttribute.altId);
                 },
               ),
             ),
