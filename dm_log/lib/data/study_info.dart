@@ -14,12 +14,12 @@ class StudyInfo extends ChangeNotifier {
         this.studyActivities = studyActivities ?? ["T", "A", "G", "F", "PC"],
         this.quickComments = quickComments ?? [];
 
-  final String studyName;
-  final List<String> studyParticipants;
-  final List<String> studyActivities;
-  final int adultCount;
-  final int childCount;
-  final List<String> quickComments;
+  String studyName;
+  List<String> studyParticipants;
+  List<String> studyActivities;
+  int adultCount;
+  int childCount;
+  List<String> quickComments;
 
   void addParticipant(String participant) {
     studyParticipants.add(participant);
@@ -37,28 +37,28 @@ class StudyInfo extends ChangeNotifier {
   }
 
   // Using Dart's built-in setter mechanism
-  set studyName(String value) {
-    this.studyName = value;
+  set setStudyName(String value) {
+    studyName = value;
     notifyListeners();
   }
 
-  set studyParticipants(List<String> values) {
-    this.studyParticipants = values;
+  set setStudyParticipants(List<String> values) {
+    studyParticipants = values;
     notifyListeners();
   }
 
-  set studyActivities(List<String> values) {
-    this.studyActivities = values;
+  set setStudyActivities(List<String> values) {
+    studyActivities = values;
     notifyListeners();
   }
 
-  set adultCount(int value) {
-    this.adultCount = value;
+  set setAdultCount(int value) {
+    adultCount = value;
     notifyListeners();
   }
 
-  set childCount(int value) {
-    this.childCount = value;
+  set setChildCount(int value) {
+    childCount = value;
     notifyListeners();
   }
 }

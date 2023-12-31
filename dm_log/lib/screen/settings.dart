@@ -181,8 +181,8 @@ class ParticipantRow extends StatelessWidget {
                     child: TextField(
                       controller: timeEntered,
                       onChanged: (value) {
-                        participants.updateParticipant(
-                            participant, value, ParticipantAttribute.timeEntered);
+                        participants.updateParticipant(participant, value,
+                            ParticipantAttribute.timeEntered);
                       },
                     ),
                   ),
@@ -198,7 +198,8 @@ class ParticipantRow extends StatelessWidget {
                   labelText: 'Alternative identifier',
                 ),
                 onChanged: (String value) {
-                  participants.updateParticipant(participant, value, ParticipantAttribute.altId);
+                  participants.updateParticipant(
+                      participant, value, ParticipantAttribute.altId);
                 },
               ),
             ),
@@ -307,6 +308,7 @@ class _StudyValuesState extends State<StudyValues> {
                   icon: const Icon(Icons.remove),
                   onPressed: () {
                     if (widget.study.adultCount > 0) {
+                      // giving stack overflow error when trying to set state here
                       widget.study.adultCount--;
                       setState(() {});
                     }
