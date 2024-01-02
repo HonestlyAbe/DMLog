@@ -67,7 +67,7 @@ class _MyWidgetState extends State<Settings> {
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.archive),
-                  label: "Study info",
+                  label: "Study Export",
                 ),
               ],
               onTap: (int index) {

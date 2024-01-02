@@ -7,6 +7,7 @@ import 'data/activity.dart';
 import 'data/participant_entry.dart';
 import './data/study_info.dart';
 import './screen/settings.dart';
+import 'settings_page.dart';
 
 void main() {
   runApp(MultiProvider(providers: [
@@ -33,6 +34,37 @@ class MyApp extends StatelessWidget {
   }
 }
 
+class ActivitiesPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        // Activity Row
+        Expanded(
+          child: Center(
+            child: ListView(
+              shrinkWrap: true,
+              children: Provider.of<ActivityProvider>(context)
+                  .activities
+                  .map((activity) => ActivityRow(
+                        key: Key(activity.ID),
+                        data: activity,
+                        activityProvider:
+                            Provider.of<ActivityProvider>(context),
+                        study: Provider.of<StudyInfo>(context),
+                        index: Provider.of<ActivityProvider>(context)
+                            .activities
+                            .indexOf(activity),
+                      ))
+                  .toList(),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
 
@@ -43,6 +75,29 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  int _selectedIndex = 0;
+
+  static final List<Widget> _pages = <Widget>[
+    // Your existing content goes here
+    // Replace this with your actual content widgets
+    // For example: MyListView(), MyGridView(), etc.
+    ActivitiesPage(),
+    SettingsPage(),
+    Text('Page 3'),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    // // Handle navigation to different pages here
+    // if (_selectedIndex == 2) {
+    //   // Open the settings page
+    //   _openSettingsPage();
+    // }
+  }
+
   void _addActivity() {
     setState(() {
       // Add a new activity to the list in provider
@@ -80,6 +135,13 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  void _openSettingsPage() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => SettingsPage()),
+    );
+  }
+
   // Returns a widget for our row titles
   Widget rowTitle(String title, double width) {
     return Container(
@@ -96,30 +158,25 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Column(
-        children: <Widget>[
-          // Activity Row
-          Expanded(
-            child: Center(
-              child: ListView(
-                shrinkWrap: true,
-                children: Provider.of<ActivityProvider>(context)
-                    .activities
-                    .map((activity) => ActivityRow(
-                          key: Key(activity.ID),
-                          data: activity,
-                          activityProvider:
-                              Provider.of<ActivityProvider>(context),
-                          study: Provider.of<StudyInfo>(context),
-                          index: Provider.of<ActivityProvider>(context)
-                              .activities
-                              .indexOf(activity),
-                        ))
-                    .toList(),
-              ),
-            ),
+      body: _pages[_selectedIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.business),
+            label: 'Business',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
           ),
         ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.blue,
+        onTap: _onItemTapped,
       ),
       // Button to add activity on the right and settings button on the left
       floatingActionButton: Row(
