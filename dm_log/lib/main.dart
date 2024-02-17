@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:dm_log/data/activity_provider.dart';
 import 'screen/act_row.dart';
-import 'data/activity_provider.dart';
+import 'screen/part_row.dart';
 import 'data/activity.dart';
 import 'data/participant_entry.dart';
 import './data/study_info.dart';
@@ -65,6 +65,37 @@ class ActivitiesPage extends StatelessWidget {
   }
 }
 
+class ParticipantsPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        // Participant Row
+        Expanded(
+          child: Center(
+            child: ListView(
+              shrinkWrap: true,
+              children: Provider.of<ParticipantEntry>(context)
+                  .participants
+                  .map((participant) => PartRow(
+                        key: Key(participant.name),
+                        participant: participant,
+                        participantProvider:
+                            Provider.of<ParticipantEntry>(context),
+                        study: Provider.of<StudyInfo>(context),
+                        index: Provider.of<ParticipantEntry>(context)
+                            .participants
+                            .indexOf(participant),
+                      ))
+                  .toList(),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
 
@@ -82,8 +113,8 @@ class _MyHomePageState extends State<MyHomePage> {
     // Replace this with your actual content widgets
     // For example: MyListView(), MyGridView(), etc.
     ActivitiesPage(),
+    ParticipantsPage(),
     SettingsPage(),
-    Text('Page 3'),
   ];
 
   void _onItemTapped(int index) {
@@ -105,6 +136,16 @@ class _MyHomePageState extends State<MyHomePage> {
           Activity.defaultActivity(
               Provider.of<ActivityProvider>(context, listen: false),
               Provider.of<StudyInfo>(context, listen: false)));
+    });
+  }
+
+  void _addParticipant() {
+    setState(() {
+      // Add a new participant to the list in provider
+      Provider.of<ParticipantEntry>(context, listen: false).addParticipant(
+          ParticipantEntry.defaultParticipant(
+              Provider.of<StudyInfo>(context, listen: false),
+              Provider.of<ParticipantEntry>(context, listen: false)));
     });
   }
 
@@ -183,9 +224,9 @@ class _MyHomePageState extends State<MyHomePage> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           FloatingActionButton(
-            onPressed: _addActivity,
+            onPressed: _addParticipant,
             tooltip: 'Add prefilled activity',
-            child: const Icon(Icons.bolt),
+            child: const Icon(Icons.person),
           ),
           const SizedBox(width: 10),
           FloatingActionButton(
@@ -196,7 +237,7 @@ class _MyHomePageState extends State<MyHomePage> {
           const SizedBox(width: 10),
           FloatingActionButton(
             onPressed: () {
-              _openSettingsPopup();
+              //_openSettingsPopup();
             },
             tooltip: 'Settings',
             child: const Icon(Icons.settings),

@@ -45,40 +45,38 @@ class _MyWidgetState extends State<Settings> {
   Widget build(BuildContext context) {
     // Return a widget for our settings
     return Container(
-        width: 400,
-        height: 400,
         child: Column(
-          children: [
-            Expanded(child: pages[current]),
-            BottomNavigationBar(
-              type: BottomNavigationBarType.fixed,
-              items: const [
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.person),
-                  label: "Study info",
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.bolt),
-                  label: "Quick comments",
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.document_scanner),
-                  label: "Activity Guide",
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.archive),
-                  label: "Study Export",
-                ),
-              ],
-              onTap: (int index) {
-                setState(() {
-                  current = index;
-                });
-              },
-              currentIndex: current,
+      children: [
+        Expanded(child: pages[current]),
+        BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: "Study info",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.bolt),
+              label: "Quick comments",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.document_scanner),
+              label: "Activity Guide",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.archive),
+              label: "Study Export",
             ),
           ],
-        ));
+          onTap: (int index) {
+            setState(() {
+              current = index;
+            });
+          },
+          currentIndex: current,
+        ),
+      ],
+    ));
   }
 }
 
@@ -108,8 +106,8 @@ class _PartPageState extends State<PartPage> {
           onPressed: () {
             // Add participant to provider
             widget.study.addParticipant(controller.text);
-            widget.participants
-                .addParticipant(ParticipantInfo(name: controller.text));
+            widget.participants.addParticipant(ParticipantInfo(
+                study: widget.study, provider: widget.participants));
             setState(() {});
             controller.clear();
           },

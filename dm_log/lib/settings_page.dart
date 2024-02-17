@@ -8,11 +8,13 @@ import 'package:dm_log/data/activity_provider.dart';
 import './screen/settings.dart';
 
 class SettingsPage extends StatelessWidget {
+  const SettingsPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Settings'),
+        title: const Text('Settings'),
       ),
       body: Settings(
         activities: Provider.of<ActivityProvider>(context, listen: false),

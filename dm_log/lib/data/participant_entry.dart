@@ -1,3 +1,4 @@
+import 'package:dm_log/data/study_info.dart';
 import 'package:flutter/material.dart';
 import 'participant_info.dart';
 
@@ -5,6 +6,11 @@ enum ParticipantAttribute { name, timeEntered, altId }
 
 class ParticipantEntry extends ChangeNotifier {
   List<ParticipantInfo> participants = [];
+
+  static ParticipantInfo defaultParticipant(
+      StudyInfo study, ParticipantEntry provider) {
+    return ParticipantInfo(study: study, provider: provider);
+  }
 
   void addParticipant(ParticipantInfo participant) {
     participants.add(participant);
