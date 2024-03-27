@@ -26,7 +26,7 @@ class ParticipantInfo {
     this.name = "",
     this.timeEntered = "",
     this.altId = "",
-    this.lenaID = "",
+    this.lenaID = "1",
     this.lenaNum = "",
     this.vestOn = "",
     this.vestOff = "",
@@ -37,8 +37,6 @@ class ParticipantInfo {
     this.notes = "",
     this.type = ParticipantType.student,
   });
-
-
 
   /// Create a copy of this [ParticipantInfo] but with the given fields replaced with the new values.
   ParticipantInfo copyWith({

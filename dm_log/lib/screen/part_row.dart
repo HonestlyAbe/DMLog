@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:dm_log/data/participant_entry.dart';
 import 'package:dm_log/data/participant_info.dart';
 import 'package:dm_log/data/study_info.dart';
@@ -82,8 +84,10 @@ class _ParticipantRowState extends State<PartRow> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        _nameColumn(),
+        _LENAIDDropDownColumn(),
         _timeDetailColumn(
-          title: "Time Started",
+          title: "Vest On",
           controller: timeStartedController,
           onIconPressed: () {
             DateTime now = DateTime.now();
@@ -92,7 +96,7 @@ class _ParticipantRowState extends State<PartRow> {
           },
         ),
         _timeDetailColumn(
-          title: "Time Ended",
+          title: "Vest Off",
           controller: timeEndedController,
           onIconPressed: () {
             DateTime now = DateTime.now();
@@ -101,7 +105,62 @@ class _ParticipantRowState extends State<PartRow> {
           },
         ),
         //_involvedDetail(),
-        // _typeDropdownDetail(),
+        _typeDropdownDetail(),
+      ],
+    );
+  }
+
+  Column _nameColumn() {
+    return Column(
+      children: [
+        const Text("Name", style: TextStyle(fontSize: 15)),
+        Container(
+          margin: const EdgeInsets.only(right: 10),
+          width: 100,
+          height: 65,
+          padding: const EdgeInsets.all(8),
+          decoration: _boxDecoration(),
+          child: Center(
+            child: TextField(
+              controller: commentsController,
+              onChanged: (value) {
+                widget.participant.name = value;
+              },
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Column _LENAIDDropDownColumn() {
+    return Column(
+      children: [
+        const Text("LENA ID", style: TextStyle(fontSize: 15)),
+        Container(
+          margin: const EdgeInsets.only(right: 10),
+          width: 100,
+          height: 65,
+          padding: const EdgeInsets.all(8),
+          decoration: _boxDecoration(),
+          child: Center(
+            child: DropdownButton<String>(
+              value: widget.participant.lenaID,
+              onChanged: (String? newValue) {
+                setState(() {
+                  widget.participant.lenaID = newValue!;
+                });
+              },
+              items: widget.study.lenaIDs
+                  .map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -144,6 +203,7 @@ class _ParticipantRowState extends State<PartRow> {
       ],
     );
   }
+
 // make docstring
 
 /*
@@ -207,39 +267,37 @@ class _ParticipantRowState extends State<PartRow> {
       ],
     );
   }
-
+*/
   Column _typeDropdownDetail() {
-    return Column(
-      children: [
-        const Text("Type", style: TextStyle(fontSize: 15)),
-        Container(
-          margin: const EdgeInsets.only(bottom: 10, left: 10),
-          width: 100,
-          height: 65,
-          padding: const EdgeInsets.all(8),
-          decoration: _boxDecoration(),
-          child: Center(
-            child: DropdownButton<String>(
-              value: widget.participant.name,
-              onChanged: (newValue) {
-                setState(() {
-                  widget.participant.name = newValue!;
-                });
-              },
-              items: ["Joe", "John", "Jiffy"]
-                  .map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-            ),
+    return Column(children: [
+      const Text("LENA Off", style: TextStyle(fontSize: 15)),
+      Container(
+        margin: const EdgeInsets.only(bottom: 10, left: 10),
+        width: 100,
+        height: 65,
+        padding: const EdgeInsets.all(8),
+        decoration: _boxDecoration(),
+        child: Center(
+          child: DropdownButton<bool>(
+            value: widget.participant.lenaOff,
+            onChanged: (bool? newValue) {
+              setState(() {
+                widget.participant.lenaOff = newValue!;
+              });
+            },
+            items:
+                <bool>[true, false].map<DropdownMenuItem<bool>>((bool value) {
+              return DropdownMenuItem<bool>(
+                value: value,
+                child: Text(value.toString()),
+              );
+            }).toList(),
           ),
         ),
-      ],
-    );
+      )
+    ]);
   }
-*/
+
   Column _countDetailColumn({
     required String title,
     required int count,
@@ -318,10 +376,10 @@ class _ParticipantRowState extends State<PartRow> {
   Column _commentDetail() {
     return Column(
       children: [
-        const Text("Comment", style: TextStyle(fontSize: 15)),
+        const Text("Name", style: TextStyle(fontSize: 15)),
         Container(
           margin: const EdgeInsets.only(left: 10, right: 10),
-          width: 250,
+          width: 100,
           height: 65,
           padding: const EdgeInsets.all(8),
           decoration: _boxDecoration(),
