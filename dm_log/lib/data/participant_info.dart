@@ -78,10 +78,9 @@ class ParticipantInfo {
     );
   }
 
-  // TODO: finish toString
   @override
   String toString() {
-    return '[name: $name, timeEntered: $timeEntered, altId: $altId, type: ${type.toString().split('.').last}, status: $status, left tag: $leftTag, right tag: $rightTag, default Lena: $defaultLENA, SONY ID: $sonyID]';
+    return '[name: $name, timeEntered: $timeEntered, altId: $altId, type: ${type.toString().split('.').last}, shortID: $shortID, left tag: $leftTag, right tag: $rightTag, default Lena: $defaultLENA, SONY ID: $sonyID, lenaON: $lenaON, lenaOFF: $lenaOFF, vestON: $vestON, vestOFF: $vestOFF, status: $status, subjectID: $subjectID, notes: $notes]';
   }
 }
 

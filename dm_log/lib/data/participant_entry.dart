@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'participant_info.dart';
 
-enum ParticipantAttribute { name, timeEntered, altId }
+// attributes of type String (excludes Type and Status)
+enum ParticipantAttribute { name, timeEntered, altId, shortID, leftTag, rightTag, defaultLENA, 
+  sonyID, lenaON, lenaOFF, vestON, vestOFF, subjectID, notes }
 
 class ParticipantEntry extends ChangeNotifier {
   List<ParticipantInfo> participants = [];
@@ -16,7 +18,6 @@ class ParticipantEntry extends ChangeNotifier {
     notifyListeners();
   }
 
-  // TODO: add anything to this?
   void updateParticipant(ParticipantInfo participant, String value,
       ParticipantAttribute attribute) {
     int index = participants.indexOf(participant);
@@ -31,6 +32,39 @@ class ParticipantEntry extends ChangeNotifier {
           break;
         case ParticipantAttribute.altId:
           updatedParticipant = participant.copyWith(altId: value);
+          break;
+        case ParticipantAttribute.shortID:
+          updatedParticipant = participant.copyWith(shortID: value);
+          break;
+        case ParticipantAttribute.leftTag:
+          updatedParticipant = participant.copyWith(leftTag: value);
+          break;
+        case ParticipantAttribute.rightTag:
+          updatedParticipant = participant.copyWith(rightTag: value);
+          break;
+        case ParticipantAttribute.defaultLENA:
+          updatedParticipant = participant.copyWith(defaultLENA: value);
+          break;
+        case ParticipantAttribute.sonyID:
+          updatedParticipant = participant.copyWith(sonyID: value);
+          break;
+        case ParticipantAttribute.lenaON:
+          updatedParticipant = participant.copyWith(lenaON: value);
+          break;
+        case ParticipantAttribute.lenaOFF:
+          updatedParticipant = participant.copyWith(lenaOFF: value);
+          break;
+        case ParticipantAttribute.vestON:
+          updatedParticipant = participant.copyWith(vestON: value);
+          break;
+        case ParticipantAttribute.vestOFF:
+          updatedParticipant = participant.copyWith(vestOFF: value);
+          break;
+        case ParticipantAttribute.subjectID:
+          updatedParticipant = participant.copyWith(subjectID: value);
+          break;
+        case ParticipantAttribute.notes:
+          updatedParticipant = participant.copyWith(notes: value);
           break;
         default:
           updatedParticipant = participant; // No changes in default case
