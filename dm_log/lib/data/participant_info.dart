@@ -1,41 +1,42 @@
-import 'dart:ffi';
-
-import 'package:dm_log/data/participant_entry.dart';
-import 'package:dm_log/data/study_info.dart';
-
 /// Represents detailed information about a participant.
 class ParticipantInfo {
-  String name;
-  String timeEntered;
-  String altId;
-  String lenaID;
-  String lenaNum;
-  String vestOn;
-  String vestOff;
-  bool lenaOff;
-  String status;
-  String ULeft;
-  String URight;
+  final String name;
+  final String timeEntered;
+  final String altId;
+  final ParticipantType type; // Adding enum for type
+
+  // not final because we want them to be able to changed
+  String shortID;
+  String leftTag;
+  String rightTag;
+  String defaultLENA;
+  String sonyID;
+  String lenaON;
+  String lenaOFF;
+  String vestON;
+  String vestOFF;
+  StatusType status;
+  String subjectID;
   String notes;
-  final StudyInfo study;
-  final ParticipantEntry provider;
-  ParticipantType type; // Adding enum for typ
+
+  // constructor with default values
   ParticipantInfo({
-    required this.study,
-    required this.provider,
-    this.name = "",
-    this.timeEntered = "",
+    required this.name,
+    this.timeEntered = "00:00",
     this.altId = "",
-    this.lenaID = "1",
-    this.lenaNum = "",
-    this.vestOn = "",
-    this.vestOff = "",
-    this.lenaOff = false,
-    this.status = "",
-    this.ULeft = "",
-    this.URight = "",
+    this.type = ParticipantType.Student, // Default type
+    this.shortID = "",
+    this.leftTag = "",
+    this.rightTag = "",
+    this.defaultLENA = "",
+    this.sonyID = "",
+    this.lenaON = "",
+    this.lenaOFF = "",
+    this.vestON = "",
+    this.vestOFF = "",
+    this.status = StatusType.PRESENT,
+    this.subjectID = "",
     this.notes = "",
-    this.type = ParticipantType.student,
   });
 
   /// Create a copy of this [ParticipantInfo] but with the given fields replaced with the new values.
@@ -43,39 +44,48 @@ class ParticipantInfo {
     String? name,
     String? timeEntered,
     String? altId,
-    String? lenaID,
-    String? lenaNum,
-    String? vestOn,
-    String? vestOff,
-    bool? lenaOff,
-    String? status,
-    String? ULeft,
-    String? URight,
     ParticipantType? type,
+    String? shortID,
+    String? leftTag,
+    String? rightTag,
+    String? defaultLENA,
+    String? sonyID,
+    String? lenaON,
+    String? lenaOFF,
+    String? vestON,
+    String? vestOFF,
+    StatusType? status,
+    String? subjectID,
+    String? notes,
   }) {
     return ParticipantInfo(
-      study: study,
-      provider: provider,
       name: name ?? this.name,
       timeEntered: timeEntered ?? this.timeEntered,
       altId: altId ?? this.altId,
-      lenaID: lenaID ?? this.lenaID,
-      lenaNum: lenaNum ?? this.lenaNum,
-      vestOn: vestOn ?? this.vestOn,
-      vestOff: vestOff ?? this.vestOff,
-      lenaOff: lenaOff ?? this.lenaOff,
-      status: status ?? this.status,
-      ULeft: ULeft ?? this.ULeft,
-      URight: URight ?? this.URight,
       type: type ?? this.type,
+      shortID: shortID ?? this.shortID,
+      leftTag: leftTag ?? this.leftTag,
+      rightTag: rightTag ?? this.rightTag,
+      defaultLENA: defaultLENA ?? this.defaultLENA,
+      sonyID: sonyID ?? this.sonyID,
+      lenaON: lenaON ?? this.lenaON,
+      lenaOFF: lenaOFF ?? this.lenaOFF,
+      vestON: vestON ?? this.vestON,
+      vestOFF: vestOFF ?? this.vestOFF,
+      status: status ?? this.status,
+      subjectID: subjectID ?? this.subjectID,
+      notes: notes ?? this.notes,
     );
   }
 
   @override
   String toString() {
-    return '[name: $name, timeEntered: $timeEntered, altId: $altId, type: ${type.toString().split('.').last}]';
+    return '[name: $name, timeEntered: $timeEntered, altId: $altId, type: ${type.toString().split('.').last}, shortID: $shortID, left tag: $leftTag, right tag: $rightTag, default Lena: $defaultLENA, SONY ID: $sonyID, lenaON: $lenaON, lenaOFF: $lenaOFF, vestON: $vestON, vestOFF: $vestOFF, status: $status, subjectID: $subjectID, notes: $notes]';
   }
 }
 
 /// Defines the type of participant.
-enum ParticipantType { student, adult }
+enum ParticipantType { Student, Adult }
+
+/// Defines the type of status.
+enum StatusType { PRESENT, ABSENT, NODATA }
