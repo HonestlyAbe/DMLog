@@ -7,16 +7,19 @@ class StudyInfo extends ChangeNotifier {
     this.studyName = "",
     List<String>? studyParticipants,
     List<String>? studyActivities,
+    List<String>? lenaIDs,
     this.adultCount = 2,
     this.childCount = 3,
     List<String>? quickComments,
   })  : this.studyParticipants = studyParticipants ?? [],
         this.studyActivities = studyActivities ?? ["T", "A", "G", "F", "PC"],
+        this.lenaIDs = lenaIDs ?? ["1", "2", "3", "4", "5"],
         this.quickComments = quickComments ?? [];
 
   String studyName;
   List<String> studyParticipants;
   List<String> studyActivities;
+  List<String> lenaIDs;
   int adultCount;
   int childCount;
   List<String> quickComments;
