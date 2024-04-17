@@ -16,6 +16,7 @@ class ParticipantEntry extends ChangeNotifier {
     notifyListeners();
   }
 
+  // TODO: add anything to this?
   void updateParticipant(ParticipantInfo participant, String value,
       ParticipantAttribute attribute) {
     int index = participants.indexOf(participant);
