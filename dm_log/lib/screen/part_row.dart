@@ -148,8 +148,6 @@ class _ParticipantRowState extends State<PartRow> {
           decoration: _boxDecoration(),
           child: Center(
             child: TextField(
-              //controller: commentsController,     
-              //QUESTION ABOUT CONTROLLER (HAS DEFAULT create its own [TextEditingController])
               onChanged: (value) {
                 widget.participant.shortID = value;    
               },
@@ -179,8 +177,6 @@ class _ParticipantRowState extends State<PartRow> {
           decoration: _boxDecoration(),
           child: Center(
             child: TextField(
-              //controller: commentsController,     
-              //QUESTION ABOUT CONTROLLER (HAS DEFAULT create its own [TextEditingController])
               onChanged: (value) {
                 widget.participant.leftTag = value;    
               },
@@ -210,8 +206,6 @@ class _ParticipantRowState extends State<PartRow> {
           decoration: _boxDecoration(),
           child: Center(
             child: TextField(
-              //controller: commentsController,     
-              //QUESTION ABOUT CONTROLLER (HAS DEFAULT create its own [TextEditingController])
               onChanged: (value) {
                 widget.participant.rightTag = value;    
               },
@@ -241,8 +235,6 @@ class _ParticipantRowState extends State<PartRow> {
           decoration: _boxDecoration(),
           child: Center(
             child: TextField(
-              //controller: commentsController,     
-              //QUESTION ABOUT CONTROLLER (HAS DEFAULT create its own [TextEditingController])
               onChanged: (value) {
                 widget.participant.subjectID = value;    
               },
@@ -272,8 +264,6 @@ class _ParticipantRowState extends State<PartRow> {
           decoration: _boxDecoration(),
           child: Center(
             child: TextField(
-              //controller: commentsController,     
-              //QUESTION ABOUT CONTROLLER (HAS DEFAULT create its own [TextEditingController])
               onChanged: (value) {
                 widget.participant.sonyID = value;    
               },
