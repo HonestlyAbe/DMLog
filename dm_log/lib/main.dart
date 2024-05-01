@@ -9,6 +9,7 @@ import './data/study_info.dart';
 import './screen/settings.dart';
 import 'settings_page.dart';
 
+
 void main() {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => ActivityProvider()),
