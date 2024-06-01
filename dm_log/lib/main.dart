@@ -9,7 +9,6 @@ import './data/study_info.dart';
 import './screen/settings.dart';
 import 'settings_page.dart';
 
-
 void main() {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => ActivityProvider()),
@@ -67,6 +66,8 @@ class ActivitiesPage extends StatelessWidget {
 }
 
 class ParticipantsPage extends StatelessWidget {
+  const ParticipantsPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -75,11 +76,13 @@ class ParticipantsPage extends StatelessWidget {
         Expanded(
           child: Center(
             child: ListView(
-              shrinkWrap: true,
               children: Provider.of<ParticipantEntry>(context)
                   .participants
                   .map((participant) => PartRow(
-                        key: Key(participant.name),
+                        key: Key(Provider.of<ParticipantEntry>(context)
+                            .participants
+                            .length
+                            .toString()),
                         participant: participant,
                         participantProvider:
                             Provider.of<ParticipantEntry>(context),
@@ -148,6 +151,7 @@ class _MyHomePageState extends State<MyHomePage> {
               Provider.of<StudyInfo>(context, listen: false),
               Provider.of<ParticipantEntry>(context, listen: false)));
     });
+    print(Provider.of<ParticipantEntry>(context, listen: false).toString());
   }
 
   void _addBlankActivity() {
