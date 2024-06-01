@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:dm_log/data/study_info.dart';
 import '../data/activity.dart';
 import '../data/activity_provider.dart';
+import '../data/participant_provider.dart';
 
 class ActivityRow extends StatefulWidget {
   final Activity data;
   final ActivityProvider activityProvider;
+  final ParticipantProvider participantProvider;
   final StudyInfo study;
   final int index;
 
@@ -13,6 +15,7 @@ class ActivityRow extends StatefulWidget {
     Key? key,
     required this.data,
     required this.activityProvider,
+    required this.participantProvider,
     required this.study,
     required this.index,
   }) : super(key: key);
@@ -51,7 +54,8 @@ class _ActivityRowState extends State<ActivityRow> {
             children: [
               _activityTitle(),
               const SizedBox(height: 10),
-              _activityDetailsRow(),
+              _activityDetailsRow(
+                  participantProvider: widget.participantProvider),
               _activityAdditionalDetailsRow(),
             ],
           ),
@@ -76,7 +80,7 @@ class _ActivityRowState extends State<ActivityRow> {
     );
   }
 
-  Row _activityDetailsRow() {
+  Row _activityDetailsRow({required ParticipantProvider participantProvider}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -98,7 +102,7 @@ class _ActivityRowState extends State<ActivityRow> {
             widget.data.timeEnded = timeEndedController.text;
           },
         ),
-        _involvedDetail(),
+        _involvedDetail(participantProvider: participantProvider),
         _typeDropdownDetail(),
       ],
     );
@@ -143,7 +147,7 @@ class _ActivityRowState extends State<ActivityRow> {
     );
   }
 
-  Column _involvedDetail() {
+  Column _involvedDetail({required ParticipantProvider participantProvider}) {
     return Column(
       children: [
         const Text("Involved", style: TextStyle(fontSize: 15)),
@@ -170,7 +174,9 @@ class _ActivityRowState extends State<ActivityRow> {
                             shrinkWrap: true,
                             crossAxisCount: 4,
                             children: <Widget>[
-                              for (String key in widget.data.involved.keys)
+                              for (String key in participantProvider
+                                  .participants
+                                  .map((p) => p.name))
                                 Column(children: <Widget>[
                                   Text(key),
                                   Checkbox(

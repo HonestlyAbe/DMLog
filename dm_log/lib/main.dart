@@ -4,7 +4,7 @@ import 'package:dm_log/data/activity_provider.dart';
 import 'screen/act_row.dart';
 import 'screen/part_row.dart';
 import 'data/activity.dart';
-import 'data/participant_entry.dart';
+import 'data/participant_provider.dart';
 import './data/study_info.dart';
 import './screen/settings.dart';
 import 'settings_page.dart';
@@ -13,7 +13,7 @@ void main() {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => ActivityProvider()),
     ChangeNotifierProvider(create: (_) => StudyInfo()),
-    ChangeNotifierProvider(create: (_) => ParticipantEntry()),
+    ChangeNotifierProvider(create: (_) => ParticipantProvider()),
   ], child: const MyApp()));
 }
 
@@ -49,6 +49,8 @@ class ActivitiesPage extends StatelessWidget {
                   .map((activity) => ActivityRow(
                         key: Key(activity.ID),
                         data: activity,
+                        participantProvider:
+                            Provider.of<ParticipantProvider>(context),
                         activityProvider:
                             Provider.of<ActivityProvider>(context),
                         study: Provider.of<StudyInfo>(context),
@@ -76,18 +78,18 @@ class ParticipantsPage extends StatelessWidget {
         Expanded(
           child: Center(
             child: ListView(
-              children: Provider.of<ParticipantEntry>(context)
+              children: Provider.of<ParticipantProvider>(context)
                   .participants
                   .map((participant) => PartRow(
-                        key: Key(Provider.of<ParticipantEntry>(context)
+                        key: Key(Provider.of<ParticipantProvider>(context)
                             .participants
-                            .length
+                            .indexOf(participant)
                             .toString()),
                         participant: participant,
                         participantProvider:
-                            Provider.of<ParticipantEntry>(context),
+                            Provider.of<ParticipantProvider>(context),
                         study: Provider.of<StudyInfo>(context),
-                        index: Provider.of<ParticipantEntry>(context)
+                        index: Provider.of<ParticipantProvider>(context)
                             .participants
                             .indexOf(participant),
                       ))
@@ -146,12 +148,12 @@ class _MyHomePageState extends State<MyHomePage> {
   void _addParticipant() {
     setState(() {
       // Add a new participant to the list in provider
-      Provider.of<ParticipantEntry>(context, listen: false).addParticipant(
-          ParticipantEntry.defaultParticipant(
+      Provider.of<ParticipantProvider>(context, listen: false).addParticipant(
+          ParticipantProvider.defaultParticipant(
               Provider.of<StudyInfo>(context, listen: false),
-              Provider.of<ParticipantEntry>(context, listen: false)));
+              Provider.of<ParticipantProvider>(context, listen: false)));
     });
-    print(Provider.of<ParticipantEntry>(context, listen: false).toString());
+    //print(Provider.of<ParticipantProvider>(context, listen: false).toString());
   }
 
   void _addBlankActivity() {
@@ -175,7 +177,7 @@ class _MyHomePageState extends State<MyHomePage> {
               activities: Provider.of<ActivityProvider>(context, listen: false),
               study: Provider.of<StudyInfo>(context, listen: false),
               participants:
-                  Provider.of<ParticipantEntry>(context, listen: false)),
+                  Provider.of<ParticipantProvider>(context, listen: false)),
         );
       },
     );
@@ -208,12 +210,12 @@ class _MyHomePageState extends State<MyHomePage> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+            icon: Icon(Icons.task),
+            label: 'Activities',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            label: 'Business',
+            icon: Icon(Icons.groups),
+            label: 'Participants',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
@@ -229,23 +231,15 @@ class _MyHomePageState extends State<MyHomePage> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           FloatingActionButton(
-            onPressed: _addParticipant,
-            tooltip: 'Add prefilled activity',
-            child: const Icon(Icons.person),
-          ),
-          const SizedBox(width: 10),
-          FloatingActionButton(
             onPressed: _addBlankActivity,
-            tooltip: 'Add blank activity',
+            tooltip: 'Add activity',
             child: const Icon(Icons.add),
           ),
           const SizedBox(width: 10),
           FloatingActionButton(
-            onPressed: () {
-              //_openSettingsPopup();
-            },
-            tooltip: 'Settings',
-            child: const Icon(Icons.settings),
+            onPressed: _addParticipant,
+            tooltip: 'Add participant',
+            child: const Icon(Icons.person),
           ),
         ],
       ),

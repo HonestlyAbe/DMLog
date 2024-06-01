@@ -1,6 +1,6 @@
 // settings_page.dart
 
-import 'package:dm_log/data/participant_entry.dart';
+import 'package:dm_log/data/participant_provider.dart';
 import 'package:dm_log/data/study_info.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +19,7 @@ class SettingsPage extends StatelessWidget {
       body: Settings(
         activities: Provider.of<ActivityProvider>(context, listen: false),
         study: Provider.of<StudyInfo>(context, listen: false),
-        participants: Provider.of<ParticipantEntry>(context, listen: false),
+        participants: Provider.of<ParticipantProvider>(context, listen: false),
       ),
     );
   }

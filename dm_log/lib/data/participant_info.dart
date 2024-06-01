@@ -1,6 +1,6 @@
 import 'dart:ffi';
 
-import 'package:dm_log/data/participant_entry.dart';
+import 'package:dm_log/data/participant_provider.dart';
 import 'package:dm_log/data/study_info.dart';
 
 /// Represents detailed information about a participant.
@@ -12,7 +12,7 @@ class ParticipantInfo {
   String lenaNum;
   String vestOn;
   String vestOff;
-  bool lenaOff;
+  String lenaOff;
   String status;
   String ULeft;
   String URight;
@@ -22,9 +22,10 @@ class ParticipantInfo {
   String leftTag;
   String rightTag;
   String sonyID;
+  String type; // Adding enum for typ
   final StudyInfo study;
-  final ParticipantEntry provider;
-  ParticipantType type; // Adding enum for typ
+  final ParticipantProvider provider;
+
   ParticipantInfo({
     required this.study,
     required this.provider,
@@ -35,12 +36,12 @@ class ParticipantInfo {
     this.lenaNum = "",
     this.vestOn = "",
     this.vestOff = "",
-    this.lenaOff = false,
+    this.lenaOff = "",
     this.status = "",
     this.ULeft = "",
     this.URight = "",
     this.notes = "",
-    this.type = ParticipantType.student,
+    this.type = "",
     this.subjectID = "",
     this.shortID = "",
     this.leftTag = "",
@@ -57,16 +58,17 @@ class ParticipantInfo {
     String? lenaNum,
     String? vestOn,
     String? vestOff,
-    bool? lenaOff,
+    String? lenaOff,
     String? status,
     String? ULeft,
     String? URight,
-    ParticipantType? type,
+    String? type,
     String? subjectID,
     String? shortID,
     String? leftTag,
     String? rightTag,
     String? sonyID,
+    String? notes,
   }) {
     return ParticipantInfo(
       study: study,
@@ -88,7 +90,6 @@ class ParticipantInfo {
       leftTag: leftTag ?? this.leftTag,
       rightTag: rightTag ?? this.rightTag,
       sonyID: sonyID ?? this.sonyID,
-      
     );
   }
 
