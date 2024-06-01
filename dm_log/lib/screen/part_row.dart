@@ -56,7 +56,7 @@ class _ParticipantRowState extends State<PartRow> {
               _activityTitle(),
               const SizedBox(height: 10),
               _activityDetailsRow(),
-              //_activityAdditionalDetailsRow(),
+              _activityAdditionalDetailsRow(),
             ],
           ),
         ),
@@ -84,6 +84,7 @@ class _ParticipantRowState extends State<PartRow> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        _subjectIDColumn(),
         _nameColumn(),
         _LENAIDDropDownColumn(),
         _timeDetailColumn(
@@ -106,6 +107,169 @@ class _ParticipantRowState extends State<PartRow> {
         ),
         //_involvedDetail(),
         _typeDropdownDetail(),
+        //
+      ],
+    );
+  }
+
+//***
+//
+// NEW ROW EDIT
+//
+// */
+
+  Row _activityAdditionalDetailsRow() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        _shortIDColumn(),
+        _leftTagColumn(),
+        _rightTagColumn(),
+        _sonyIDColumn(),
+      ],
+    );
+  }
+
+//***
+  //
+  // EDIT FOR NEW Short ID
+  //
+  // */
+
+   Column _shortIDColumn() {
+    return Column(
+      children: [
+        const Text("Short ID", style: TextStyle(fontSize: 15)),
+        Container(
+          margin: const EdgeInsets.only(right: 10),
+          width: 100,
+          height: 65,
+          padding: const EdgeInsets.all(8),
+          decoration: _boxDecoration(),
+          child: Center(
+            child: TextField(
+              onChanged: (value) {
+                widget.participant.shortID = value;    
+              },
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+
+//***
+  //
+  // EDIT FOR NEW Left tag
+  //
+  // */
+
+   Column _leftTagColumn() {
+    return Column(
+      children: [
+        const Text("Left Tag", style: TextStyle(fontSize: 15)),
+        Container(
+          margin: const EdgeInsets.only(right: 10),
+          width: 100,
+          height: 65,
+          padding: const EdgeInsets.all(8),
+          decoration: _boxDecoration(),
+          child: Center(
+            child: TextField(
+              onChanged: (value) {
+                widget.participant.leftTag = value;    
+              },
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+
+  //***
+  //
+  // EDIT FOR NEW Right Tag
+  //
+  // */
+
+   Column _rightTagColumn() {
+    return Column(
+      children: [
+        const Text("Right Tag", style: TextStyle(fontSize: 15)),
+        Container(
+          margin: const EdgeInsets.only(right: 10),
+          width: 100,
+          height: 65,
+          padding: const EdgeInsets.all(8),
+          decoration: _boxDecoration(),
+          child: Center(
+            child: TextField(
+              onChanged: (value) {
+                widget.participant.rightTag = value;    
+              },
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+
+  //***
+  //
+  //EDIT FOR NEW Subject ID
+  //
+  // */
+
+   Column _subjectIDColumn() {
+    return Column(
+      children: [
+        const Text("Subject ID", style: TextStyle(fontSize: 15)),
+        Container(
+          margin: const EdgeInsets.only(right: 10),
+          width: 100,
+          height: 65,
+          padding: const EdgeInsets.all(8),
+          decoration: _boxDecoration(),
+          child: Center(
+            child: TextField(
+              onChanged: (value) {
+                widget.participant.subjectID = value;    
+              },
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+
+  //***
+  //
+  //EDIT FOR NEW Subject ID
+  //
+  // */
+
+   Column _sonyIDColumn() {
+    return Column(
+      children: [
+        const Text("Sony ID", style: TextStyle(fontSize: 15)),
+        Container(
+          margin: const EdgeInsets.only(right: 10),
+          width: 100,
+          height: 65,
+          padding: const EdgeInsets.all(8),
+          decoration: _boxDecoration(),
+          child: Center(
+            child: TextField(
+              onChanged: (value) {
+                widget.participant.sonyID = value;    
+              },
+            ),
+          ),
+        ),
       ],
     );
   }
