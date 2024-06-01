@@ -2,8 +2,6 @@ import 'package:dm_log/data/activity_provider.dart';
 import 'package:dm_log/data/participant_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:dm_log/data/study_info.dart';
-import 'package:dm_log/data/participant_info.dart';
-import 'package:flutter/services.dart';
 
 class Settings extends StatefulWidget {
   final StudyInfo study;

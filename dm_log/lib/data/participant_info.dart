@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:dm_log/data/participant_provider.dart';
 import 'package:dm_log/data/study_info.dart';
 

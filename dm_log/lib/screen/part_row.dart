@@ -1,13 +1,7 @@
-// ignore_for_file: non_constant_identifier_names
-
-import 'dart:ffi';
-
 import 'package:dm_log/data/participant_provider.dart';
 import 'package:dm_log/data/participant_info.dart';
 import 'package:dm_log/data/study_info.dart';
 import 'package:flutter/material.dart';
-import '../data/activity.dart';
-import '../data/activity_provider.dart';
 
 class PartRow extends StatefulWidget {
   final ParticipantInfo participant;
