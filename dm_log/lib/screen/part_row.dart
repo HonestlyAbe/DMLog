@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:ffi';
 
 import 'package:dm_log/data/participant_provider.dart';
@@ -26,52 +28,14 @@ class PartRow extends StatefulWidget {
 }
 
 class _ParticipantRowState extends State<PartRow> {
-  TextEditingController timeStartedController = TextEditingController();
-  TextEditingController timeEndedController = TextEditingController();
-  TextEditingController commentsController = TextEditingController();
-  TextEditingController nameController = TextEditingController();
-  TextEditingController timeEnteredController = TextEditingController();
-  TextEditingController altIdController = TextEditingController();
-  TextEditingController lenaIdController = TextEditingController();
-  TextEditingController lenaNumController = TextEditingController();
   TextEditingController vestOnController = TextEditingController();
   TextEditingController vestOffController = TextEditingController();
-  TextEditingController lenaOffController = TextEditingController();
-  TextEditingController statusController = TextEditingController();
-  TextEditingController uLeftController = TextEditingController();
-  TextEditingController uRightController = TextEditingController();
-  TextEditingController notesController = TextEditingController();
-  TextEditingController subjectIdController = TextEditingController();
-  TextEditingController shortIdController = TextEditingController();
-  TextEditingController leftTagController = TextEditingController();
-  TextEditingController rightTagController = TextEditingController();
-  TextEditingController sonyIdController = TextEditingController();
-  TextEditingController typeController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    timeStartedController.text = widget.participant.vestOn;
-    timeEndedController.text = widget.participant.vestOff;
-    commentsController.text = widget.participant.name;
-    nameController.text = widget.participant.name;
-    timeEnteredController.text = widget.participant.timeEntered;
-    altIdController.text = widget.participant.altId;
-    lenaIdController.text = widget.participant.lenaID;
-    lenaNumController.text = widget.participant.lenaNum;
     vestOnController.text = widget.participant.vestOn;
     vestOffController.text = widget.participant.vestOff;
-    lenaOffController.text = widget.participant.lenaOff;
-    statusController.text = widget.participant.status;
-    uLeftController.text = widget.participant.ULeft;
-    uRightController.text = widget.participant.URight;
-    notesController.text = widget.participant.notes;
-    subjectIdController.text = widget.participant.subjectID;
-    shortIdController.text = widget.participant.shortID;
-    leftTagController.text = widget.participant.leftTag;
-    rightTagController.text = widget.participant.rightTag;
-    sonyIdController.text = widget.participant.sonyID;
-    typeController.text = widget.participant.type;
   }
 
   String _formatTime(DateTime time) {
@@ -91,8 +55,9 @@ class _ParticipantRowState extends State<PartRow> {
             children: [
               _participantTitle(),
               const SizedBox(height: 10),
-              _activityDetailsRow(),
-              _activityAdditionalDetailsRow(),
+              _participantsDetailsRow(),
+              const SizedBox(height: 10),
+              _participantsAdditionalDetailsRow(),
             ],
           ),
         ),
@@ -116,7 +81,7 @@ class _ParticipantRowState extends State<PartRow> {
     );
   }
 
-  Row _activityDetailsRow() {
+  Row _participantsDetailsRow() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -125,45 +90,57 @@ class _ParticipantRowState extends State<PartRow> {
         _LENAIDDropDownColumn(),
         _timeDetailColumn(
           title: "Vest On",
-          controller: timeStartedController,
+          controller: vestOnController,
           onIconPressed: () {
             DateTime now = DateTime.now();
-            timeStartedController.text = _formatTime(now);
-            widget.participant.vestOn = timeStartedController.text;
+            vestOnController.text = _formatTime(now);
+            widget.participant.vestOn = vestOnController.text;
+            widget.participantProvider.updateParticipant(
+              widget.participant,
+              vestOnController.text,
+              ParticipantAttribute.vestOn,
+            );
           },
         ),
         _timeDetailColumn(
           title: "Vest Off",
-          controller: timeEndedController,
+          controller: vestOffController,
           onIconPressed: () {
             DateTime now = DateTime.now();
-            timeEndedController.text = _formatTime(now);
-            widget.participant.vestOff = timeEndedController.text;
+            vestOffController.text = _formatTime(now);
+            widget.participant.vestOff = vestOffController.text;
+            widget.participantProvider.updateParticipant(
+              widget.participant,
+              vestOffController.text,
+              ParticipantAttribute.vestOff,
+            );
           },
         ),
         //_involvedDetail(),
-        _typeDropdownDetail(),
+        _LENADropdownDetail(),
         //
       ],
     );
   }
 
-  Row _activityAdditionalDetailsRow() {
+  Row _participantsAdditionalDetailsRow() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _shortIDColumn(),
         _leftTagColumn(),
         _rightTagColumn(),
         _sonyIDColumn(),
+        _typeColumn(),
+        _statusColumn(),
+        _notesColumn(),
       ],
     );
   }
 
-  Column _shortIDColumn() {
+  Column _notesColumn() {
     return Column(
       children: [
-        const Text("Short ID", style: TextStyle(fontSize: 15)),
+        const Text("Notes", style: TextStyle(fontSize: 15)),
         Container(
           margin: const EdgeInsets.only(right: 10),
           width: 100,
@@ -172,8 +149,15 @@ class _ParticipantRowState extends State<PartRow> {
           decoration: _boxDecoration(),
           child: Center(
             child: TextField(
-              onChanged: (value) {
-                widget.participant.shortID = value;
+              onChanged: (String value) {
+                setState(() {
+                  widget.participant.notes = value;
+                  widget.participantProvider.updateParticipant(
+                    widget.participant,
+                    value,
+                    ParticipantAttribute.notes,
+                  );
+                });
               },
             ),
           ),
@@ -185,7 +169,7 @@ class _ParticipantRowState extends State<PartRow> {
   Column _leftTagColumn() {
     return Column(
       children: [
-        const Text("Left Tag", style: TextStyle(fontSize: 15)),
+        const Text("ULeft", style: TextStyle(fontSize: 15)),
         Container(
           margin: const EdgeInsets.only(right: 10),
           width: 100,
@@ -195,7 +179,14 @@ class _ParticipantRowState extends State<PartRow> {
           child: Center(
             child: TextField(
               onChanged: (value) {
-                widget.participant.leftTag = value;
+                setState(() {
+                  widget.participant.ULeft = value;
+                  widget.participantProvider.updateParticipant(
+                    widget.participant,
+                    value,
+                    ParticipantAttribute.ULeft,
+                  );
+                });
               },
             ),
           ),
@@ -207,7 +198,7 @@ class _ParticipantRowState extends State<PartRow> {
   Column _rightTagColumn() {
     return Column(
       children: [
-        const Text("Right Tag", style: TextStyle(fontSize: 15)),
+        const Text("URight", style: TextStyle(fontSize: 15)),
         Container(
           margin: const EdgeInsets.only(right: 10),
           width: 100,
@@ -217,7 +208,14 @@ class _ParticipantRowState extends State<PartRow> {
           child: Center(
             child: TextField(
               onChanged: (value) {
-                widget.participant.rightTag = value;
+                setState(() {
+                  widget.participant.URight = value;
+                  widget.participantProvider.updateParticipant(
+                    widget.participant,
+                    value,
+                    ParticipantAttribute.URight,
+                  );
+                });
               },
             ),
           ),
@@ -239,7 +237,14 @@ class _ParticipantRowState extends State<PartRow> {
           child: Center(
             child: TextField(
               onChanged: (value) {
-                widget.participant.subjectID = value;
+                setState(() {
+                  widget.participant.subjectID = value;
+                  widget.participantProvider.updateParticipant(
+                    widget.participant,
+                    value,
+                    ParticipantAttribute.subjectID,
+                  );
+                });
               },
             ),
           ),
@@ -261,12 +266,14 @@ class _ParticipantRowState extends State<PartRow> {
           child: Center(
             child: TextField(
               onChanged: (value) {
-                widget.participant.sonyID = value;
-                widget.participantProvider.updateParticipant(
-                  widget.participant,
-                  value,
-                  ParticipantAttribute.sonyID,
-                );
+                setState(() {
+                  widget.participant.sonyID = value;
+                  widget.participantProvider.updateParticipant(
+                    widget.participant,
+                    value,
+                    ParticipantAttribute.sonyID,
+                  );
+                });
               },
             ),
           ),
@@ -287,7 +294,6 @@ class _ParticipantRowState extends State<PartRow> {
           decoration: _boxDecoration(),
           child: Center(
             child: TextField(
-              controller: commentsController,
               onChanged: (String value) {
                 setState(() {
                   widget.participant.name = value;
@@ -308,7 +314,7 @@ class _ParticipantRowState extends State<PartRow> {
   Column _LENAIDDropDownColumn() {
     return Column(
       children: [
-        const Text("LENA ID", style: TextStyle(fontSize: 15)),
+        const Text("LenaID", style: TextStyle(fontSize: 15)),
         Container(
           margin: const EdgeInsets.only(right: 10),
           width: 100,
@@ -316,25 +322,17 @@ class _ParticipantRowState extends State<PartRow> {
           padding: const EdgeInsets.all(8),
           decoration: _boxDecoration(),
           child: Center(
-            child: DropdownButton<String>(
-              value: widget.participant.lenaID,
-              onChanged: (String? newValue) {
+            child: TextField(
+              onChanged: (String value) {
                 setState(() {
-                  widget.participant.lenaID = newValue!;
+                  widget.participant.lenaID = value;
                   widget.participantProvider.updateParticipant(
                     widget.participant,
-                    newValue,
+                    value,
                     ParticipantAttribute.lenaID,
                   );
                 });
               },
-              items: widget.study.lenaIDs
-                  .map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
             ),
           ),
         ),
@@ -351,7 +349,7 @@ class _ParticipantRowState extends State<PartRow> {
       children: [
         Text(title, style: TextStyle(fontSize: 15)),
         Container(
-          margin: const EdgeInsets.all(10),
+          margin: const EdgeInsets.only(right: 10),
           width: 120,
           height: 65,
           padding: const EdgeInsets.all(8),
@@ -381,11 +379,11 @@ class _ParticipantRowState extends State<PartRow> {
     );
   }
 
-  Column _typeDropdownDetail() {
+  Column _LENADropdownDetail() {
     return Column(children: [
       const Text("LENA Off", style: TextStyle(fontSize: 15)),
       Container(
-        margin: const EdgeInsets.only(bottom: 10, left: 10),
+        margin: const EdgeInsets.only(right: 10),
         width: 100,
         height: 65,
         padding: const EdgeInsets.all(8),
@@ -396,6 +394,11 @@ class _ParticipantRowState extends State<PartRow> {
             onChanged: (bool? newValue) {
               setState(() {
                 widget.participant.lenaOff = newValue! ? "True" : "False";
+                widget.participantProvider.updateParticipant(
+                  widget.participant,
+                  widget.participant.lenaOff,
+                  ParticipantAttribute.lenaOff,
+                );
               });
             },
             items:
@@ -411,36 +414,73 @@ class _ParticipantRowState extends State<PartRow> {
     ]);
   }
 
-  Column _countDetailColumn({
-    required String title,
-    required int count,
-    required VoidCallback onMinusPressed,
-    required VoidCallback onPlusPressed,
-  }) {
+  Column _typeColumn() {
     return Column(
       children: [
-        Text(title, style: TextStyle(fontSize: 15)),
+        const Text("Type", style: TextStyle(fontSize: 15)),
         Container(
-          margin: title == "Child Count"
-              ? const EdgeInsets.only(right: 10)
-              : const EdgeInsets.all(0),
-          width: 125,
+          margin: const EdgeInsets.only(right: 10),
+          width: 110,
           height: 65,
           padding: const EdgeInsets.all(8),
           decoration: _boxDecoration(),
           child: Center(
-            child: Row(
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.remove),
-                  onPressed: onMinusPressed,
-                ),
-                Text(count.toString()),
-                IconButton(
-                  icon: const Icon(Icons.add),
-                  onPressed: onPlusPressed,
-                ),
-              ],
+            child: DropdownButton<String>(
+              value: widget.participant.type,
+              onChanged: (String? newValue) {
+                setState(() {
+                  widget.participant.type = newValue!;
+                  widget.participantProvider.updateParticipant(
+                    widget.participant,
+                    newValue,
+                    ParticipantAttribute.type,
+                  );
+                });
+              },
+              items: <String>['student', 'adult']
+                  .map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Column _statusColumn() {
+    return Column(
+      children: [
+        const Text("Status", style: TextStyle(fontSize: 15)),
+        Container(
+          margin: const EdgeInsets.only(right: 10),
+          width: 110,
+          height: 65,
+          padding: const EdgeInsets.all(8),
+          decoration: _boxDecoration(),
+          child: Center(
+            child: DropdownButton<String>(
+              value: widget.participant.status,
+              onChanged: (String? newValue) {
+                setState(() {
+                  widget.participant.status = newValue!;
+                  widget.participantProvider.updateParticipant(
+                    widget.participant,
+                    newValue,
+                    ParticipantAttribute.status,
+                  );
+                });
+              },
+              items: <String>['Present', 'Absent', 'No Data']
+                  .map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
             ),
           ),
         ),
@@ -455,72 +495,9 @@ class _ParticipantRowState extends State<PartRow> {
     );
   }
 
-  Column _commentDetail() {
-    return Column(
-      children: [
-        const Text("Name", style: TextStyle(fontSize: 15)),
-        Container(
-          margin: const EdgeInsets.only(left: 10, right: 10),
-          width: 100,
-          height: 65,
-          padding: const EdgeInsets.all(8),
-          decoration: _boxDecoration(),
-          child: Center(
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: commentsController,
-                    onChanged: (value) {
-                      widget.participant.status = value;
-                    },
-                  ),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.quickreply_outlined),
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: const Text("Quick Select"),
-                          content: SizedBox(
-                            width: 300,
-                            height: 300,
-                            child: ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: widget.study.quickComments.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return TextButton(
-                                  onPressed: () {
-                                    commentsController.text +=
-                                        "${widget.study.quickComments[index]} ";
-                                    widget.participant.notes +=
-                                        "${widget.study.quickComments[index]} ";
-                                    Navigator.of(context).pop();
-                                  },
-                                  child:
-                                      Text(widget.study.quickComments[index]),
-                                );
-                              },
-                            ),
-                          ),
-                        );
-                      },
-                    );
-                  },
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
   Container _deleteButton() {
     return Container(
-      margin: const EdgeInsets.only(top: 18, left: 5),
+      margin: const EdgeInsets.only(right: 10, top: 20),
       width: 100,
       height: 65,
       padding: const EdgeInsets.all(8),

@@ -7,7 +7,6 @@ import 'package:dm_log/data/study_info.dart';
 class ParticipantInfo {
   String name;
   String timeEntered;
-  String altId;
   String lenaID;
   String lenaNum;
   String vestOn;
@@ -18,9 +17,6 @@ class ParticipantInfo {
   String URight;
   String notes;
   String subjectID;
-  String shortID;
-  String leftTag;
-  String rightTag;
   String sonyID;
   String type; // Adding enum for typ
   final StudyInfo study;
@@ -31,21 +27,17 @@ class ParticipantInfo {
     required this.provider,
     this.name = "",
     this.timeEntered = "",
-    this.altId = "",
-    this.lenaID = "1",
+    this.lenaID = "",
     this.lenaNum = "",
     this.vestOn = "",
     this.vestOff = "",
-    this.lenaOff = "",
-    this.status = "",
+    this.lenaOff = "false",
+    this.status = "Present",
     this.ULeft = "",
     this.URight = "",
     this.notes = "",
-    this.type = "",
+    this.type = "student",
     this.subjectID = "",
-    this.shortID = "",
-    this.leftTag = "",
-    this.rightTag = "",
     this.sonyID = "",
   });
 
@@ -53,7 +45,6 @@ class ParticipantInfo {
   ParticipantInfo copyWith({
     String? name,
     String? timeEntered,
-    String? altId,
     String? lenaID,
     String? lenaNum,
     String? vestOn,
@@ -64,9 +55,6 @@ class ParticipantInfo {
     String? URight,
     String? type,
     String? subjectID,
-    String? shortID,
-    String? leftTag,
-    String? rightTag,
     String? sonyID,
     String? notes,
   }) {
@@ -74,8 +62,6 @@ class ParticipantInfo {
       study: study,
       provider: provider,
       name: name ?? this.name,
-      timeEntered: timeEntered ?? this.timeEntered,
-      altId: altId ?? this.altId,
       lenaID: lenaID ?? this.lenaID,
       lenaNum: lenaNum ?? this.lenaNum,
       vestOn: vestOn ?? this.vestOn,
@@ -86,16 +72,14 @@ class ParticipantInfo {
       URight: URight ?? this.URight,
       type: type ?? this.type,
       subjectID: subjectID ?? this.subjectID,
-      shortID: shortID ?? this.shortID,
-      leftTag: leftTag ?? this.leftTag,
-      rightTag: rightTag ?? this.rightTag,
       sonyID: sonyID ?? this.sonyID,
+      notes: notes ?? this.notes,
     );
   }
 
   @override
   String toString() {
-    return '[name: $name, timeEntered: $timeEntered, altId: $altId, subjectID: $subjectID,  shortID: $shortID, leftTag: $leftTag, rightTag: $rightTag , sonyID: $sonyID, type: ${type.toString().split('.').last}]';
+    return '[name: $name, vestOn: $vestOn, subjectID: $subjectID,  sonyID: $sonyID, type: $type, lenaID: $lenaID, lenaNum: $lenaNum, vestOff: $vestOff, lenaOff: $lenaOff, status: $status, ULeft: $ULeft, URight: $URight, notes: $notes]';
   }
 }
 

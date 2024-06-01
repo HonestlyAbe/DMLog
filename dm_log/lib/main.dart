@@ -153,7 +153,7 @@ class _MyHomePageState extends State<MyHomePage> {
               Provider.of<StudyInfo>(context, listen: false),
               Provider.of<ParticipantProvider>(context, listen: false)));
     });
-    //print(Provider.of<ParticipantProvider>(context, listen: false).toString());
+    print(Provider.of<ParticipantProvider>(context, listen: false).toString());
   }
 
   void _addBlankActivity() {
