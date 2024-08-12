@@ -24,12 +24,28 @@ class PartRow extends StatefulWidget {
 class _ParticipantRowState extends State<PartRow> {
   TextEditingController vestOnController = TextEditingController();
   TextEditingController vestOffController = TextEditingController();
+  TextEditingController idController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController sonyIDController = TextEditingController();
+  TextEditingController lenaIDController = TextEditingController();
+  TextEditingController notesController = TextEditingController();
+  TextEditingController ULeftController = TextEditingController();
+  TextEditingController URightController = TextEditingController();
+
 
   @override
   void initState() {
     super.initState();
     vestOnController.text = widget.participant.vestOn;
     vestOffController.text = widget.participant.vestOff;
+    idController.text = widget.participant.subjectID;
+    nameController.text = widget.participant.name;
+    sonyIDController.text = widget.participant.sonyID;
+    lenaIDController.text = widget.participant.lenaID;
+    notesController.text = widget.participant.notes;
+    ULeftController.text = widget.participant.ULeft;
+    URightController.text = widget.participant.URight;
+    
   }
 
   String _formatTime(DateTime time) {
@@ -143,6 +159,7 @@ class _ParticipantRowState extends State<PartRow> {
           decoration: _boxDecoration(),
           child: Center(
             child: TextField(
+              controller: notesController,
               onChanged: (String value) {
                 setState(() {
                   widget.participant.notes = value;
@@ -172,6 +189,7 @@ class _ParticipantRowState extends State<PartRow> {
           decoration: _boxDecoration(),
           child: Center(
             child: TextField(
+              controller: ULeftController,
               onChanged: (value) {
                 setState(() {
                   widget.participant.ULeft = value;
@@ -201,6 +219,7 @@ class _ParticipantRowState extends State<PartRow> {
           decoration: _boxDecoration(),
           child: Center(
             child: TextField(
+              controller: URightController,
               onChanged: (value) {
                 setState(() {
                   widget.participant.URight = value;
@@ -229,17 +248,18 @@ class _ParticipantRowState extends State<PartRow> {
           padding: const EdgeInsets.all(8),
           decoration: _boxDecoration(),
           child: Center(
-            child: TextField(
-              onChanged: (value) {
-                setState(() {
-                  widget.participant.subjectID = value;
-                  widget.participantProvider.updateParticipant(
-                    widget.participant,
-                    value,
-                    ParticipantAttribute.subjectID,
-                  );
-                });
-              },
+                  child: TextField(
+                    controller: idController,
+                    onChanged: (value) {
+                    setState(() {
+                      widget.participant.subjectID = value;
+                      widget.participantProvider.updateParticipant(
+                      widget.participant,
+                      value,
+                      ParticipantAttribute.subjectID,
+                      );
+                    });
+                    },
             ),
           ),
         ),
@@ -259,6 +279,7 @@ class _ParticipantRowState extends State<PartRow> {
           decoration: _boxDecoration(),
           child: Center(
             child: TextField(
+              controller: sonyIDController,
               onChanged: (value) {
                 setState(() {
                   widget.participant.sonyID = value;
@@ -288,6 +309,7 @@ class _ParticipantRowState extends State<PartRow> {
           decoration: _boxDecoration(),
           child: Center(
             child: TextField(
+              controller: nameController,
               onChanged: (String value) {
                 setState(() {
                   widget.participant.name = value;
@@ -317,6 +339,7 @@ class _ParticipantRowState extends State<PartRow> {
           decoration: _boxDecoration(),
           child: Center(
             child: TextField(
+              controller: lenaIDController,
               onChanged: (String value) {
                 setState(() {
                   widget.participant.lenaID = value;

@@ -32,9 +32,9 @@ class _ActivityRowState extends State<ActivityRow> {
   @override
   void initState() {
     super.initState();
-    DateTime now = DateTime.now();
-    timeStartedController.text = _formatTime(now);
-    widget.data.timeStarted = timeStartedController.text;
+    timeStartedController.text = widget.data.timeStarted;
+    timeEndedController.text = widget.data.timeEnded;
+    commentsController.text = widget.data.comment;
   }
 
   String _formatTime(DateTime time) {

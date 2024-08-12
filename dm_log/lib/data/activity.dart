@@ -1,3 +1,6 @@
+import 'package:dm_log/data/participant_provider.dart';
+import 'package:flutter/material.dart';
+import 'participant_provider.dart';
 import 'activity_provider.dart';
 import 'study_info.dart';
 import 'package:uuid/uuid.dart';
@@ -6,6 +9,7 @@ class Activity {
   Activity({
     required this.provider,
     required this.study,
+    required this.participants,
     this.timeStarted = "",
     this.timeEnded = "",
     Map<String, bool>? involved,
@@ -15,7 +19,7 @@ class Activity {
     this.comment = "",
     String? ID,
   })  : this.involved = involved ??
-            Map.fromIterable(study.studyParticipants, value: (v) => false),
+            Map.fromIterable(participants.participants, value: (v) => false),
         this.ID = ID ?? idGenerator();
 
   String timeStarted;
@@ -25,17 +29,22 @@ class Activity {
   int adultCount;
   int childCount;
   String comment;
+  final ParticipantProvider participants;
   final StudyInfo study;
   final ActivityProvider provider;
   String ID;
 
-  static Activity defaultActivity(ActivityProvider provider, StudyInfo study) {
+  static Activity defaultActivity(ActivityProvider provider, StudyInfo study, ParticipantProvider participants) {
     return Activity(
       provider: provider,
       study: study,
-      involved: Map.fromIterable(study.studyParticipants, value: (v) => true),
-      adultCount: study.adultCount,
-      childCount: study.childCount,
+      participants: participants,
+      // map participants.participants.map((p) => p.ID).toList() to true
+      involved: Map.fromIterable(participants.participants.map((p) => p.name), value: (v) => true), 
+      adultCount: participants.participants.where((p) => p.type == "adult").length,
+      childCount: participants.participants.where((p) => p.type == "student").length,
+      // set timeStarted to current time in HH:MM format
+      timeStarted: "${DateTime.now().hour}:${DateTime.now().minute}",
     );
   }
 
@@ -43,6 +52,8 @@ class Activity {
     return Activity(
       provider: provider,
       study: study,
+      participants: ParticipantProvider(),
+      timeStarted: "${DateTime.now().hour}:${DateTime.now().minute}",
     );
   }
 

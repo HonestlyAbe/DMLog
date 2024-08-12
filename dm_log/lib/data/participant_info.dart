@@ -80,6 +80,3 @@ class ParticipantInfo {
     return '[name: $name, vestOn: $vestOn, subjectID: $subjectID,  sonyID: $sonyID, type: $type, lenaID: $lenaID, lenaNum: $lenaNum, vestOff: $vestOff, lenaOff: $lenaOff, status: $status, ULeft: $ULeft, URight: $URight, notes: $notes]';
   }
 }
-
-/// Defines the type of participant.
-enum ParticipantType { student, adult }

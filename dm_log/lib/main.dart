@@ -141,7 +141,8 @@ class _MyHomePageState extends State<MyHomePage> {
       Provider.of<ActivityProvider>(context, listen: false).addActivity(
           Activity.defaultActivity(
               Provider.of<ActivityProvider>(context, listen: false),
-              Provider.of<StudyInfo>(context, listen: false)));
+              Provider.of<StudyInfo>(context, listen: false),
+              Provider.of<ParticipantProvider>(context, listen: false)));
     });
   }
 
@@ -231,7 +232,7 @@ class _MyHomePageState extends State<MyHomePage> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           FloatingActionButton(
-            onPressed: _addBlankActivity,
+            onPressed: _addActivity,
             tooltip: 'Add activity',
             child: const Icon(Icons.add),
           ),
