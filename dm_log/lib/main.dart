@@ -178,7 +178,7 @@ class _MyHomePageState extends State<MyHomePage> {
               activities: Provider.of<ActivityProvider>(context, listen: false),
               study: Provider.of<StudyInfo>(context, listen: false),
               participants:
-                  Provider.of<ParticipantProvider>(context, listen: false)),
+                  Provider.of<ParticipantProvider>(context, listen: true)),
         );
       },
     );
