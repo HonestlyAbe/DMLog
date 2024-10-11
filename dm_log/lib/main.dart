@@ -219,8 +219,8 @@ class _MyHomePageState extends State<MyHomePage> {
             label: 'Participants',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
+            icon: Icon(Icons.import_export),
+            label: 'Import/Export',
           ),
         ],
         currentIndex: _selectedIndex,

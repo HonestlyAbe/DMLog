@@ -16,6 +16,17 @@ class StudyInfo extends ChangeNotifier {
         this.lenaIDs = lenaIDs ?? ["1", "2", "3", "4", "5"],
         this.quickComments = quickComments ?? [];
 
+  String ubiStartTime = "";
+  String beepTime = "";
+  String observer = "";
+  String techPerson = "";
+  String ubiRunning = "Yes";
+  String ubiEndTime = "";
+  String picTaken = "No";
+  String classDimensionUnchanged = "Yes";
+  String trackStart = "";
+  String trackEnd = "";
+  String timeTracked = "";
   String studyName;
   List<String> studyParticipants;
   List<String> studyActivities;
@@ -62,6 +73,61 @@ class StudyInfo extends ChangeNotifier {
 
   set setChildCount(int value) {
     childCount = value;
+    notifyListeners();
+  }
+
+  set setUbiStartTime(String value) {
+    ubiStartTime = value;
+    notifyListeners();
+  }
+
+  set setBeepTime(String value) {
+    beepTime = value;
+    notifyListeners();
+  }
+
+  set setObserver(String value) {
+    observer = value;
+    notifyListeners();
+  }
+
+  set setTechPerson(String value) {
+    techPerson = value;
+    notifyListeners();
+  }
+
+  set setUbiRunning(String value) {
+    ubiRunning = value;
+    notifyListeners();
+  }
+
+  set setUbiEndTime(String value) {
+    ubiEndTime = value;
+    notifyListeners();
+  }
+
+  set setPicTaken(String value) {
+    picTaken = value;
+    notifyListeners();
+  }
+
+  set setClassDimensionUnchanged(String value) {
+    classDimensionUnchanged = value;
+    notifyListeners();
+  }
+
+  set setTrackStart(String value) {
+    trackStart = value;
+    notifyListeners();
+  }
+
+  set setTrackEnd(String value) {
+    trackEnd = value;
+    notifyListeners();
+  }
+
+  set setTimeTracked(String value) {
+    timeTracked = value;
     notifyListeners();
   }
 }
