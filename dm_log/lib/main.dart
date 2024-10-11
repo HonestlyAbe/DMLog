@@ -135,6 +135,16 @@ class _MyHomePageState extends State<MyHomePage> {
     // }
   }
 
+  void _add() {
+    if (_selectedIndex == 0) {
+      _addActivity();
+    } else if (_selectedIndex == 1) {
+      _addParticipant();
+    } else {
+      // do nothing
+    }
+  }
+
   void _addActivity() {
     setState(() {
       // Add a new activity to the list in provider
@@ -232,15 +242,9 @@ class _MyHomePageState extends State<MyHomePage> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           FloatingActionButton(
-            onPressed: _addActivity,
-            tooltip: 'Add activity',
+            onPressed: _add,
+            tooltip: 'Add Activity/Participant',
             child: const Icon(Icons.add),
-          ),
-          const SizedBox(width: 10),
-          FloatingActionButton(
-            onPressed: _addParticipant,
-            tooltip: 'Add participant',
-            child: const Icon(Icons.person),
           ),
         ],
       ),

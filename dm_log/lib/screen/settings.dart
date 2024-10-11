@@ -497,6 +497,10 @@ Future<ParticipantProvider> importData(
       continue;
     }
 
+    if (line.isEmpty) {
+      break;
+    }
+
     List<String> row = line.split(',');
     // [az, a#, sxsd, ax, sc, , false, 22:07, 22:07, Present, az, student, so]
     ParticipantInfo tempParticipant = ParticipantInfo(
